@@ -45,6 +45,7 @@ resource "aws_security_group" "default" {
   }
 }
 
+# output によりモジュール間で値を引き回すことができる
 output "public_dns" {
   value = aws_instance.default.public_dns
 }
