@@ -69,6 +69,8 @@ resource "aws_ecs_service" "example" {
   lifecycle {
     ignore_changes = [task_definition]
   }
+
+  depends_on = [aws_lb_target_group.example, aws_lb_listener_rule.example]
 }
 
 resource "aws_cloudwatch_log_group" "for_ecs" {

@@ -40,6 +40,8 @@ resource "aws_lb_listener" "http" {
       status_code  = "200"
     }
   }
+
+  depends_on = [aws_lb.example]
 }
 
 resource "aws_lb_listener" "https" {
@@ -58,6 +60,8 @@ resource "aws_lb_listener" "https" {
       status_code  = "200"
     }
   }
+
+  depends_on = [aws_lb.example]
 }
 
 resource "aws_lb_listener" "redirect_http_to_https" {
@@ -74,6 +78,8 @@ resource "aws_lb_listener" "redirect_http_to_https" {
       status_code = "HTTP_301"
     }
   }
+
+  depends_on = [aws_lb.example]
 }
 
 resource "aws_lb_target_group" "example" {
@@ -112,6 +118,8 @@ resource "aws_lb_listener_rule" "example" {
       values = ["/*"]
     }
   }
+
+  depends_on = [aws_lb_target_group.example]
 }
 
 resource "aws_route53_record" "example" {
