@@ -1,22 +1,3 @@
-data "aws_iam_policy" "ecs_task_execution_role_policy" {
-  arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
-}
-
-data "aws_iam_policy" "ecs_events_role_policy" {
-  arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
-}
-
-data "aws_iam_policy_document" "ecs_task_execution" {
-  # 既存のポリシーの継承
-  source_json = data.aws_iam_policy.ecs_task_execution_role_policy.policy
-
-  statement {
-    effect    = "Allow"
-    actions   = ["ssm:GetParameters", "kms:Decrypt"] # 追加で付与する権限
-    resources = ["*"]
-  }
-}
-
 resource "aws_ecs_cluster" "example" {
   name = "example"
 }

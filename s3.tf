@@ -1,18 +1,6 @@
-data "aws_iam_policy_document" "alb_log" {
-  statement {
-    effect    = "Allow"
-    actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.alb_log.id}/*"]
-
-    principals {
-      type        = "AWS"
-      identifiers = ["582318560864"]
-    }
-  }
-}
-
 resource "aws_s3_bucket" "private" {
-  bucket = "private-perforb-terraform"
+  bucket        = "private-perforb-terraform"
+  force_destroy = true # オブジェクトが残っていても強制削除
 
   versioning {
     enabled = true
@@ -36,8 +24,9 @@ resource "aws_s3_bucket_public_access_block" "private" {
 }
 
 resource "aws_s3_bucket" "public" {
-  bucket = "public-perforb-terraform"
-  acl    = "public-read"
+  bucket        = "public-perforb-terraform"
+  acl           = "public-read"
+  force_destroy = true # オブジェクトが残っていても強制削除
 
   cors_rule {
     allowed_origins = ["https://example.com"]
@@ -80,6 +69,32 @@ resource "aws_s3_bucket" "artifact" {
 
 resource "aws_s3_bucket" "operation" {
   bucket        = "operation-perforb-terraform"
+  force_destroy = true # オブジェクトが残っていても強制削除
+
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "180"
+    }
+  }
+}
+
+resource "aws_s3_bucket" "athena" {
+  bucket        = "athena-perforb-terraform"
+  force_destroy = true # オブジェクトが残っていても強制削除
+
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "180"
+    }
+  }
+}
+
+resource "aws_s3_bucket" "cloudwatch_logs" {
+  bucket        = "cloudwatch-logs-perforb-terraform"
   force_destroy = true # オブジェクトが残っていても強制削除
 
   lifecycle_rule {
