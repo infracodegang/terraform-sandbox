@@ -52,6 +52,19 @@ resource "aws_s3_bucket_policy" "alb_log" {
   policy = data.aws_iam_policy_document.alb_log.json
 }
 
+resource "aws_s3_bucket" "artifact" {
+  bucket = "artifact-perforb-terraform"
+  force_destroy = true # オブジェクトが残っていても強制削除
+
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "180"
+    }
+  }
+}
+
 data "aws_iam_policy_document" "alb_log" {
   statement {
     effect    = "Allow"
