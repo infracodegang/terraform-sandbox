@@ -1,3 +1,16 @@
+data "aws_iam_policy_document" "alb_log" {
+  statement {
+    effect    = "Allow"
+    actions   = ["s3:PutObject"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.alb_log.id}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = ["582318560864"]
+    }
+  }
+}
+
 resource "aws_s3_bucket" "private" {
   bucket = "private-perforb-terraform"
 
@@ -53,7 +66,7 @@ resource "aws_s3_bucket_policy" "alb_log" {
 }
 
 resource "aws_s3_bucket" "artifact" {
-  bucket = "artifact-perforb-terraform"
+  bucket        = "artifact-perforb-terraform"
   force_destroy = true # オブジェクトが残っていても強制削除
 
   lifecycle_rule {
@@ -65,15 +78,15 @@ resource "aws_s3_bucket" "artifact" {
   }
 }
 
-data "aws_iam_policy_document" "alb_log" {
-  statement {
-    effect    = "Allow"
-    actions   = ["s3:PutObject"]
-    resources = ["arn:aws:s3:::${aws_s3_bucket.alb_log.id}/*"]
+resource "aws_s3_bucket" "operation" {
+  bucket        = "operation-perforb-terraform"
+  force_destroy = true # オブジェクトが残っていても強制削除
 
-    principals {
-      type        = "AWS"
-      identifiers = ["582318560864"]
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "180"
     }
   }
 }
