@@ -67,6 +67,10 @@ resource "aws_codebuild_project" "example" {
     image           = "aws/codebuild/standard:2.0"
     privileged_mode = true
   }
+
+  lifecycle {
+    ignore_changes = [environment]
+  }
 }
 
 resource "aws_codepipeline" "example" {
