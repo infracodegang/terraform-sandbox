@@ -6,8 +6,8 @@ phases:
       docker: 18
   pre_build:
     commands:
-    - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-    - REPO=$(aws ecr describe-repositories --repository-names example --output text --query "repositories[0].repositoryUri")
+    - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+    - REPO=$(aws ecr describe-repositories --repository-names $IMAGE_REPO_NAME --output text --query "repositories[0].repositoryUri")
     - IMAGE=$REPO:latest
   build:
     commands:
