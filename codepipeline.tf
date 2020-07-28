@@ -38,7 +38,7 @@ resource "aws_codepipeline" "example" {
       output_artifacts = ["Source"]
 
       configuration = {
-        Owner                = "refurbishedcodes"
+        Owner                = "infracodegang"
         Repo                 = "terraform-sandbox"
         Branch               = "master"
         PollForSourceChanges = false

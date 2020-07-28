@@ -9,6 +9,6 @@ provider "aws" {
 }
 
 provider "github" {
-  organization = "refurbishedcodes"
+  organization = "infracodegang"
   version      = "2.9.2"
 }
