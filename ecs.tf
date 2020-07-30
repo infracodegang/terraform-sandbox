@@ -48,6 +48,9 @@ resource "aws_ecs_service" "example" {
   }
 
   lifecycle {
+    # Fargate の場合デプロイのたびにタスク定義が更新されるため plan 時に差分が出てしまう.
+    # そのため, Terraform ではリソースの初回作成時を除きタスク定義の変更を無視する.
+    # つまりタスク定義の更新は, Terraform のライフサイクルではなく, アプリケーションデプロイのライフサイクルとする.
     ignore_changes = [task_definition]
   }
 
