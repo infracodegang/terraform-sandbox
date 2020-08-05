@@ -1,10 +1,10 @@
 provider "aws" {
   profile = var.profile
-  region  = "ap-northeast-1"
+  region  = var.region
   version = "3.0.0"
 }
 
 provider "github" {
-  organization = "infracodegang"
+  organization = var.github_organization
   version      = "2.9.2"
 }
