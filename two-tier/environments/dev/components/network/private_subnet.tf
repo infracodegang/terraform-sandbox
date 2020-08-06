@@ -1,7 +1,7 @@
 resource "aws_subnet" "private_1" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.65.0/24"
-  availability_zone       = "ap-northeast-1a"
+  cidr_block              = var.private_subnet_1_cidr_block
+  availability_zone       = var.private_subnet_1_az
   map_public_ip_on_launch = false
 
   tags = {
@@ -12,54 +12,12 @@ resource "aws_subnet" "private_1" {
 
 resource "aws_subnet" "private_2" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.66.0/24"
-  availability_zone       = "ap-northeast-1c"
+  cidr_block              = var.private_subnet_2_cidr_block
+  availability_zone       = var.private_subnet_2_az
   map_public_ip_on_launch = false
 
   tags = {
     Name        = "private-subnet-2-${var.env}"
-    Environment = var.env
-  }
-}
-
-resource "aws_nat_gateway" "nat_gateway_1" {
-  allocation_id = aws_eip.nat_gateway_1.id
-  subnet_id     = aws_subnet.public_1.id
-  depends_on    = [aws_internet_gateway.main]
-
-  tags = {
-    Name        = "nat-gateway-1-${var.env}"
-    Environment = var.env
-  }
-}
-
-resource "aws_nat_gateway" "nat_gateway_2" {
-  allocation_id = aws_eip.nat_gateway_2.id
-  subnet_id     = aws_subnet.public_2.id
-  depends_on    = [aws_internet_gateway.main]
-
-  tags = {
-    Name        = "nat-gateway-2-${var.env}"
-    Environment = var.env
-  }
-}
-
-resource "aws_eip" "nat_gateway_1" {
-  vpc        = true
-  depends_on = [aws_internet_gateway.main]
-
-  tags = {
-    Name        = "nat-gateway-eip-1-${var.env}"
-    Environment = var.env
-  }
-}
-
-resource "aws_eip" "nat_gateway_2" {
-  vpc        = true
-  depends_on = [aws_internet_gateway.main]
-
-  tags = {
-    Name        = "nat-gateway-eip-2-${var.env}"
     Environment = var.env
   }
 }
