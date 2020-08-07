@@ -10,6 +10,11 @@ resource "aws_s3_bucket" "alb_log" {
       days = var.bucket_expiration_days.alb_log
     }
   }
+
+  tags = {
+    Name        = "aws_s3_bucket_alb_log"
+    Environment = var.env
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "alb_log" {
@@ -40,6 +45,11 @@ resource "aws_s3_bucket" "artifact" {
       days = var.bucket_expiration_days.artifact
     }
   }
+
+  tags = {
+    Name        = "aws_s3_bucket_artifact"
+    Environment = var.env
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "artifact" {
@@ -62,6 +72,11 @@ resource "aws_s3_bucket" "athena" {
       days = var.bucket_expiration_days.athena
     }
   }
+
+  tags = {
+    Name        = "aws_s3_bucket_athena"
+    Environment = var.env
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "athena" {
@@ -83,6 +98,11 @@ resource "aws_s3_bucket" "cloud_watch_logs" {
     expiration {
       days = var.bucket_expiration_days.cloud_watch_logs
     }
+  }
+
+  tags = {
+    Name        = "aws_s3_bucket_cloud_watch_logs"
+    Environment = var.env
   }
 }
 
