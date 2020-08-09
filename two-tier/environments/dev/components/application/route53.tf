@@ -12,6 +12,8 @@ resource "aws_route53_record" "root" {
     zone_id                = aws_lb.public_alb.zone_id
     evaluate_target_health = true
   }
+
+  depends_on = [aws_lb.public_alb]
 }
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate#referencing-domain_validation_options-with-for_each-based-resources
