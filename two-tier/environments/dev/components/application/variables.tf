@@ -24,6 +24,16 @@ variable "alb_log_bucket" {
   description = ""
 }
 
+# https://docs.aws.amazon.com/ja_jp/elasticloadbalancing/latest/classic/enable-access-logs.html#attach-bucket-policy
+variable "alb_logger" {
+  type    = map
+  default = {
+    ap-northeast-1 = "582318560864"
+    ap-northeast-3 = "383597477331"
+  }
+  description = ""
+}
+
 variable "domain_name" {
   type        = string
   description = ""
