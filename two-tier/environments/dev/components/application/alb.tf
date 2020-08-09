@@ -6,12 +6,12 @@ resource "aws_lb" "public_alb" {
   enable_deletion_protection = var.enable_deletion_protection # production では true にして削除保護を有効化する
 
   subnets = [
-    module.remote.public_subnet_1_id,
-    module.remote.public_subnet_2_id,
+    module.datasource.public_subnet_1_id,
+    module.datasource.public_subnet_2_id,
   ]
 
   access_logs {
-    bucket  = module.remote.alb_log_bucket_id
+    bucket  = module.datasource.alb_log_bucket_id
     enabled = var.public_alb_access_logs_enabled
   }
 
@@ -66,7 +66,7 @@ resource "aws_lb_listener" "https" {
 resource "aws_lb_target_group" "ecs_1" {
   name                 = "target-group-ecs-1"
   target_type          = "ip"
-  vpc_id               = module.remote.vpc_id
+  vpc_id               = module.datasource.vpc_id
   port                 = 80
   protocol             = "HTTP"
   deregistration_delay = 300
