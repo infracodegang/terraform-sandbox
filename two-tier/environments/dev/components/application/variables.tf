@@ -61,3 +61,33 @@ variable "public_alb_access_logs_enabled" {
   default     = true
   description = ""
 }
+
+variable "ecs_service_platform_version" {
+  type        = string
+  default     = "1.4.0"
+  description = ""
+}
+
+variable "ecs_service_api_desired_count" {
+  type        = number
+  default     = 2
+  description = ""
+}
+
+variable "ecs_service_api_health_check_grace_period_seconds" {
+  type        = number
+  default     = 60
+  description = ""
+}
+
+variable "api_load_balancer_container_name" {
+  type        = string
+  default     = "api_gateway_container"
+  description = ""
+}
+
+variable "api_load_balancer_container_port" {
+  type        = number
+  default     = 80
+  description = ""
+}

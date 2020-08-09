@@ -3,6 +3,11 @@ output "vpc_id" {
   description = ""
 }
 
+output "vpc_cidr_block" {
+  value       = data.aws_vpc.main.cidr_block
+  description = ""
+}
+
 output "public_subnet_1_id" {
   value       = data.aws_subnet.public_1.id
   description = ""

@@ -1,0 +1,13 @@
+[
+    {
+        "name": "api_gateway_container",
+        "image": "nginx:latest",
+        "essential": true,
+        "portMappings": [
+            {
+                "protocol": "tcp",
+                "containerPort": 80
+            }
+        ]
+    }
+]
