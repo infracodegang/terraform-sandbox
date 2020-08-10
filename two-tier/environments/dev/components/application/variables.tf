@@ -91,3 +91,9 @@ variable "api_load_balancer_container_port" {
   default     = 80
   description = ""
 }
+
+variable "cloudwatch_log_group_for_ecs_api_retention_in_days" {
+  type        = number
+  default     = 30
+  description = ""
+}
