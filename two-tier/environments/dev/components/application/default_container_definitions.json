@@ -11,6 +11,16 @@
                 "awslogs-group": "/ecs/api"
             }
         },
+        "secrets": [
+            {
+                "name": "DB_USERNAME",
+                "valueFrom": "/db/username"
+            },
+            {
+                "name": "DB_PASSWORD",
+                "valueFrom": "/db/password"
+            }
+        ],
         "portMappings": [
             {
                 "protocol": "tcp",
