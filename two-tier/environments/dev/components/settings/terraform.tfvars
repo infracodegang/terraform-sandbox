@@ -2,4 +2,3 @@
 
 profile = "default"
 env = "dev"
-github_organization = "infracodegang"

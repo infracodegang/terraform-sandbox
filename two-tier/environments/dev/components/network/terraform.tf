@@ -3,7 +3,6 @@ terraform {
 
   required_providers {
     aws    = "3.0.0"
-    github = "2.9.2"
   }
 
   backend "s3" {

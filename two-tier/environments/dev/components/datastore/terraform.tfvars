@@ -2,7 +2,6 @@
 
 profile = "default"
 env = "dev"
-github_organization = "infracodegang"
 db_instance_username = "root"
 db_instance_instance_class = "db.t3.small"
 db_instance_deletion_protection = false

@@ -2,7 +2,6 @@
 
 profile = "default"
 env = "dev"
-github_organization = "infracodegang"
 force_destroy = true
 alb_log_bucket_name = "infracodegang-alb-log-bucket-dev"
 artifact_bucket_name = "infracodegang-artifact-bucket-dev"
