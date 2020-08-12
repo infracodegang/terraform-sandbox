@@ -11,7 +11,7 @@ resource "aws_lb" "public_alb" {
   ]
 
   access_logs {
-    bucket  = module.datasource.alb_log_bucket_id
+    bucket  = aws_s3_bucket.alb_log.id
     enabled = var.public_alb_access_logs_enabled
   }
 

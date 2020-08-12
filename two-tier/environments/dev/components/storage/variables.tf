@@ -14,11 +14,6 @@ variable "region" {
   description = ""
 }
 
-variable "alb_log_bucket_name" {
-  type        = string
-  description = ""
-}
-
 variable "artifact_bucket_name" {
   type        = string
   description = ""

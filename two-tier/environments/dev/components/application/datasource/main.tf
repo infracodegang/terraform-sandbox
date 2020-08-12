@@ -32,8 +32,3 @@ data "aws_subnet" "private_2" {
     Environment = var.env
   }
 }
-
-data "aws_s3_bucket" "alb_log" {
-  bucket = var.alb_log_bucket
-}
-

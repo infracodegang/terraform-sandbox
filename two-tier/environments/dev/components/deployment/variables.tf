@@ -34,7 +34,13 @@ variable "target_branch" {
   description = ""
 }
 
-variable "artifact_bucket" {
+variable "artifact_bucket_name" {
   type        = string
+  description = ""
+}
+
+variable "bucket_force_destroy" {
+  type        = bool
+  default     = false
   description = ""
 }
