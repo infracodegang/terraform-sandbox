@@ -19,6 +19,11 @@ variable "alb_log_bucket_name" {
   description = ""
 }
 
+variable "cloud_watch_logs_bucket_name" {
+  type        = string
+  description = ""
+}
+
 variable "bucket_force_destroy" {
   type        = bool
   default     = false

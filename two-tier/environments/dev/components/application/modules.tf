@@ -40,3 +40,17 @@ module "ecs_events_role" {
   identifier = "events.amazonaws.com"
   policy     = data.aws_iam_policy.ecs_events_role_policy.policy
 }
+
+module "kinesis_data_firehose_role" {
+  source     = "../../../../modules/iam_role"
+  name       = "kinesis-data-firehose"
+  identifier = "firehose.amazonaws.com"
+  policy     = data.aws_iam_policy_document.kinesis_data_firehose.json
+}
+
+module "cloudwatch_logs_role" {
+  source     = "../../../../modules/iam_role"
+  name       = "cloudwatch-logs"
+  identifier = "logs.${var.region}.amazonaws.com"
+  policy     = data.aws_iam_policy_document.cloudwatch_logs.json
+}

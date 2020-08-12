@@ -23,6 +23,8 @@ resource "aws_lb" "public_alb" {
   tags = {
     Environment = var.env
   }
+
+  depends_on = [aws_s3_bucket.alb_log]
 }
 
 resource "aws_lb_listener" "redirect_http_to_https" {
