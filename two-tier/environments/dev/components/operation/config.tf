@@ -7,7 +7,7 @@ terraform {
 
   backend "s3" {
     bucket = "infracodegang-remote-state-dev"
-    key    = "dev/settings/terraform.state"
+    key    = "dev/operation/terraform.state"
     region = "ap-northeast-1"
   }
 }

@@ -1,7 +1,6 @@
 module "datasource" {
-  source         = "./datasource"
-  env            = var.env
-  alb_log_bucket = var.alb_log_bucket
+  source = "./datasource"
+  env    = var.env
 }
 
 module "http_redirect_sg" {

@@ -1,7 +1,6 @@
 module "datasource" {
-  source          = "./datasource"
-  env             = var.env
-  artifact_bucket = var.artifact_bucket
+  source = "./datasource"
+  env    = var.env
 }
 
 module "codebuild_role" {

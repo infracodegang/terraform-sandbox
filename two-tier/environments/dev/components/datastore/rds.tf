@@ -24,8 +24,11 @@ resource "aws_db_option_group" "main" {
 }
 
 resource "aws_db_subnet_group" "main" {
-  name       = "db-subnet-group-main-${var.env}"
-  subnet_ids = [module.datasource.private_subnet_1_id, module.datasource.private_subnet_2_id]
+  name = "db-subnet-group-main-${var.env}"
+  subnet_ids = [
+    module.datasource.private_subnet_1_id,
+    module.datasource.private_subnet_2_id
+  ]
 }
 
 # あとから以下のコマンドでパスワードを更新
@@ -39,7 +42,7 @@ resource "aws_db_instance" "main" {
   max_allocated_storage      = 100
   storage_type               = var.db_instance_storage_type
   storage_encrypted          = true
-  kms_key_id                 = module.datasource.aws_kms_key_main.arn
+  kms_key_id                 = aws_kms_key.main.arn
   username                   = var.db_instance_username
   password                   = "temporalpassword"
   multi_az                   = true
