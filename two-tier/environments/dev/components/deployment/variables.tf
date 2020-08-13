@@ -14,6 +14,11 @@ variable "region" {
   description = ""
 }
 
+variable "github_token" {
+  type        = string
+  description = ""
+}
+
 variable "organization_name" {
   type        = string
   description = ""
