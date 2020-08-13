@@ -21,10 +21,11 @@ resource "aws_ecs_service" "ecs_service_api" {
   name                              = "aws-ecs-service-api-${var.env}"
   cluster                           = aws_ecs_cluster.main.arn
   task_definition                   = aws_ecs_task_definition.api_task_def.arn
-  desired_count                     = var.ecs_service_api_desired_count # 1だとタスクが再起動するまでアクセスできないため, production では2以上を指定する
+  desired_count                     = 2 # 1だとタスクが再起動するまでアクセスできないため, production では2以上を指定する
   launch_type                       = "FARGATE"
-  platform_version                  = var.ecs_service_platform_version
-  health_check_grace_period_seconds = var.ecs_service_api_health_check_grace_period_seconds # ヘルスチェック開始までの猶予期間
+  platform_version                  = "1.4.0"
+  health_check_grace_period_seconds = 60 # ヘルスチェック開始までの猶予期間
+  enable_ecs_managed_tags           = true
 
   network_configuration {
     assign_public_ip = false
@@ -37,9 +38,13 @@ resource "aws_ecs_service" "ecs_service_api" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.ecs_1.arn
+    target_group_arn = aws_lb_target_group.blue.arn
     container_name   = var.api_load_balancer_container_name
     container_port   = var.api_load_balancer_container_port
+  }
+
+  deployment_controller {
+    type = "CODE_DEPLOY"
   }
 
   lifecycle {
@@ -49,5 +54,8 @@ resource "aws_ecs_service" "ecs_service_api" {
     ignore_changes = [task_definition]
   }
 
-  depends_on = [aws_lb_target_group.ecs_1, aws_lb_listener_rule.api]
+  depends_on = [
+    aws_lb_target_group.blue,
+    aws_lb_target_group.green,
+  ]
 }

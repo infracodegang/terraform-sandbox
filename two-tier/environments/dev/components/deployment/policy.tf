@@ -48,3 +48,7 @@ data "aws_iam_policy_document" "codebuild" {
     ]
   }
 }
+
+data "aws_iam_policy" "codedeploy" {
+  arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
+}

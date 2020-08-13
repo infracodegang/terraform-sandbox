@@ -50,39 +50,9 @@ variable "enable_deletion_protection" {
   description = ""
 }
 
-variable "ssl_policy" {
-  type        = string
-  default     = "ELBSecurityPolicy-2016-08"
-  description = ""
-}
-
-variable "public_alb_idle_timeout" {
-  type        = number
-  default     = 60
-  description = ""
-}
-
 variable "public_alb_access_logs_enabled" {
   type        = bool
   default     = true
-  description = ""
-}
-
-variable "ecs_service_platform_version" {
-  type        = string
-  default     = "1.4.0"
-  description = ""
-}
-
-variable "ecs_service_api_desired_count" {
-  type        = number
-  default     = 2
-  description = ""
-}
-
-variable "ecs_service_api_health_check_grace_period_seconds" {
-  type        = number
-  default     = 60
   description = ""
 }
 
