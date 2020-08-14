@@ -7,7 +7,7 @@
             "logDriver": "awslogs",
             "options": {
                 "awslogs-region": "ap-northeast-1",
-                "awslogs-stream-prefix": "nginx",
+                "awslogs-stream-prefix": "ecs-api",
                 "awslogs-group": "/ecs/api"
             }
         },
