@@ -33,24 +33,25 @@ resource "aws_codedeploy_deployment_group" "main" {
   }
 
   ecs_service {
-    cluster_name = aws_ecs_cluster.main.name
-    service_name = aws_ecs_service.ecs_service_api.name
+    cluster_name = "aws-ecs-cluster-${var.env}"
+    service_name = "aws-ecs-service-api-${var.env}"
   }
 
   load_balancer_info {
     target_group_pair_info {
       prod_traffic_route {
         listener_arns = [
-          aws_lb_listener.main.arn
+          module.datasource.aws_lb_listener_http.arn
+          # aws_lb_listener.https.arn
         ]
       }
 
       target_group {
-        name = aws_lb_target_group.blue.name
+        name = "target-group-blue"
       }
 
       target_group {
-        name = aws_lb_target_group.green.name
+        name = "target-group-green"
       }
     }
   }

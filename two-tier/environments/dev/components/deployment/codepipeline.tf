@@ -50,15 +50,16 @@ resource "aws_codepipeline" "main" {
       provider        = "CodeDeployToECS"
       version         = "1"
       run_order       = 3
-      input_artifacts = ["build", "source"]
+      input_artifacts = ["Source", "Build"]
+
       configuration = {
-        ApplicationName                = aws_codedeploy_app.main.name
-        DeploymentGroupName            = aws_codedeploy_app.main.name
-        TaskDefinitionTemplateArtifact = "source"
+        ApplicationName                = "codedeploy-app-${var.env}"
+        DeploymentGroupName            = "codedeploy-deployment-group-${var.env}"
+        TaskDefinitionTemplateArtifact = "Source"
         TaskDefinitionTemplatePath     = "taskdef.json"
-        AppSpecTemplateArtifact        = "source"
+        AppSpecTemplateArtifact        = "Source"
         AppSpecTemplatePath            = "appspec.yaml"
-        Image1ArtifactName             = "build"
+        Image1ArtifactName             = "Build"
         Image1ContainerName            = "IMAGE1_NAME"
       }
     }
@@ -68,6 +69,8 @@ resource "aws_codepipeline" "main" {
     type     = "S3"
     location = aws_s3_bucket.artifact.id
   }
+
+  depends_on = [aws_codebuild_project.main, aws_codedeploy_app.main]
 }
 
 resource "aws_codepipeline_webhook" "main" {

@@ -58,4 +58,8 @@ resource "aws_ecs_service" "ecs_service_api" {
     aws_lb_target_group.blue,
     aws_lb_target_group.green,
   ]
+
+  tags = {
+    Environment = var.env
+  }
 }
