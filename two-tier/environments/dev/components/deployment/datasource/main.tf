@@ -5,12 +5,7 @@ data "aws_lb" "public_alb" {
   }
 }
 
-data "aws_lb_listener" "http" {
+data "aws_lb_listener" "https" {
   load_balancer_arn = data.aws_lb.public_alb.arn
-  port              = 80
+  port              = 443
 }
-
-# data "aws_lb_listener" "https" {
-#   load_balancer_arn = data.aws_lb.public_alb.arn
-#   port              = 443
-# }

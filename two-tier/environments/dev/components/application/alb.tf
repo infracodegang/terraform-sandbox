@@ -16,9 +16,8 @@ resource "aws_lb" "public_alb" {
   }
 
   security_groups = [
-    module.http_sg.security_group_id,
-    # module.https_sg.security_group_id,
-    # module.http_redirect_sg.security_group_id,
+    module.https_sg.security_group_id,
+    module.http_redirect_sg.security_group_id,
   ]
 
   tags = {
@@ -29,60 +28,46 @@ resource "aws_lb" "public_alb" {
   depends_on = [aws_s3_bucket.alb_log]
 }
 
-resource "aws_lb_listener" "http" {
+resource "aws_lb_listener" "redirect_http_to_https" {
   load_balancer_arn = aws_lb.public_alb.arn
   port              = "80"
   protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+
+  depends_on = [aws_lb.public_alb]
+}
+
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.public_alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = aws_acm_certificate.acm_cert.arn
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.blue.arn
   }
 
-  depends_on = [aws_lb.public_alb]
+  depends_on = [aws_lb.public_alb, aws_acm_certificate.acm_cert]
+
+  tags = {
+    Environment = var.env
+    Name        = "https"
+  }
 }
 
-# resource "aws_lb_listener" "redirect_http_to_https" {
-#   load_balancer_arn = aws_lb.public_alb.arn
-#   port              = "80"
-#   protocol          = "HTTP"
-
-#   default_action {
-#     type = "redirect"
-
-#     redirect {
-#       port        = "443"
-#       protocol    = "HTTPS"
-#       status_code = "HTTP_301"
-#     }
-#   }
-
-#   depends_on = [aws_lb.public_alb]
-# }
-
-# resource "aws_lb_listener" "https" {
-#   load_balancer_arn = aws_lb.public_alb.arn
-#   port              = "443"
-#   protocol          = "HTTPS"
-#   certificate_arn   = aws_acm_certificate.acm_cert.arn
-#   ssl_policy        = "ELBSecurityPolicy-2016-08"
-
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.blue.arn
-#   }
-
-#   depends_on = [aws_lb.public_alb, aws_acm_certificate.acm_cert]
-
-#   tags = {
-#     Environment = var.env
-#     Name        = "https"
-#   }
-# }
-
 resource "aws_lb_listener_rule" "api" {
-  listener_arn = aws_lb_listener.http.arn
-  # listener_arn = aws_lb_listener.https.arn
+  listener_arn = aws_lb_listener.https.arn
   priority = 100
 
   action {
