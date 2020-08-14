@@ -64,25 +64,6 @@ resource "aws_codepipeline" "main" {
     }
   }
 
-  stage {
-    name = "Deploy"
-
-    action {
-      name            = "Deploy"
-      category        = "Deploy"
-      owner           = "AWS"
-      provider        = "ECS"
-      version         = 1
-      input_artifacts = ["Build"]
-
-      configuration = {
-        ClusterName = aws_ecs_cluster.example.name
-        ServiceName = aws_ecs_service.example.name
-        FileName    = "imagedefinitions.json"
-      }
-    }
-  }
-
   artifact_store {
     type     = "S3"
     location = aws_s3_bucket.artifact.id
