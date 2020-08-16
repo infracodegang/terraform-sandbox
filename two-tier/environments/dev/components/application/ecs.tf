@@ -38,7 +38,7 @@ resource "aws_ecs_service" "ecs_service_api" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.blue.arn
+    target_group_arn = aws_lb_target_group.green.arn
     container_name   = var.api_load_balancer_container_name
     container_port   = var.api_load_balancer_container_port
   }
@@ -51,7 +51,11 @@ resource "aws_ecs_service" "ecs_service_api" {
     # Fargate の場合デプロイのたびにタスク定義が更新されるため plan 時に差分が出てしまう.
     # そのため, Terraform ではリソースの初回作成時を除きタスク定義の変更を無視する.
     # つまりタスク定義の更新は, Terraform のライフサイクルではなく, アプリケーションデプロイのライフサイクルとする.
-    ignore_changes = [task_definition]
+    ignore_changes = [
+      task_definition,
+      desired_count,
+      load_balancer,
+    ]
   }
 
   depends_on = [

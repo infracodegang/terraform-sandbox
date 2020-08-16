@@ -25,6 +25,10 @@
             {
                 "protocol": "tcp",
                 "containerPort": 80
+            },
+            {
+                "protocol": "tcp",
+                "containerPort": 9000
             }
         ]
     }
