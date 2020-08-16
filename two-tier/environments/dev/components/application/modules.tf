@@ -3,14 +3,6 @@ module "datasource" {
   env    = var.env
 }
 
-# module "http_redirect_sg" {
-#   source      = "../../../../modules/security_group"
-#   name        = "http-redirect-sg"
-#   vpc_id      = module.datasource.vpc_id
-#   port        = 80
-#   cidr_blocks = ["0.0.0.0/0"]
-# }
-
 module "http_sg" {
   source      = "../../../../modules/security_group"
   name        = "http-sg"
@@ -31,7 +23,7 @@ module "ecs_sg" {
   source      = "../../../../modules/security_group"
   name        = "ecs-sg"
   vpc_id      = module.datasource.vpc_id
-  port        = 80
+  port        = 9000
   cidr_blocks = [module.datasource.vpc_cidr_block]
 }
 

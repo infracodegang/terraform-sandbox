@@ -18,7 +18,6 @@ resource "aws_lb" "public_alb" {
   security_groups = [
     module.http_sg.security_group_id,
     # module.https_sg.security_group_id,
-    # module.http_redirect_sg.security_group_id,
   ]
 
   tags = {
@@ -36,24 +35,29 @@ resource "aws_lb_listener" "http" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.blue.arn
+    target_group_arn = aws_lb_target_group.green.arn
+  }
+
+  # Blue-Green Deployment 時の target-group 切り替えは無視
+  lifecycle {
+    ignore_changes = [default_action]
   }
 
   depends_on = [aws_lb.public_alb]
 }
 
-# resource "aws_lb_listener" "redirect_http_to_https" {
+# resource "aws_lb_listener" "http" {
 #   load_balancer_arn = aws_lb.public_alb.arn
 #   port              = "80"
 #   protocol          = "HTTP"
 
 #   default_action {
-#     type = "redirect"
+#     type = "fixed-response"
 
-#     redirect {
-#       port        = "443"
-#       protocol    = "HTTPS"
-#       status_code = "HTTP_301"
+#     fixed_response = {
+#       content_type = "text/plain"
+#       mesage_body  = "Not found"
+#       status_code  = "404"
 #     }
 #   }
 
@@ -69,25 +73,25 @@ resource "aws_lb_listener" "http" {
 
 #   default_action {
 #     type             = "forward"
-#     target_group_arn = aws_lb_target_group.blue.arn
+#     target_group_arn = aws_lb_target_group.green.arn
+#   }
+
+#   # Blue-Green Deployment 時の target-group 切り替えは無視
+#   lifecycle {
+#     ignore_changes = [default_action]
 #   }
 
 #   depends_on = [aws_lb.public_alb, aws_acm_certificate.acm_cert]
-
-#   tags = {
-#     Environment = var.env
-#     Name        = "https"
-#   }
 # }
 
-resource "aws_lb_listener_rule" "api" {
+resource "aws_lb_listener_rule" "http" {
   listener_arn = aws_lb_listener.http.arn
   # listener_arn = aws_lb_listener.https.arn
   priority = 100
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.blue.arn
+    target_group_arn = aws_lb_target_group.green.arn
   }
 
   condition {
@@ -96,14 +100,32 @@ resource "aws_lb_listener_rule" "api" {
     }
   }
 
-  depends_on = [aws_lb_target_group.blue, aws_lb_target_group.green]
+  depends_on = [aws_lb_target_group.green]
 }
+
+# resource "aws_lb_listener_rule" "https" {
+#   listener_arn = aws_lb_listener.https.arn
+#   priority = 100
+
+#   action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.green.arn
+#   }
+
+#   condition {
+#     path_pattern {
+#       values = ["/*"]
+#     }
+#   }
+
+#   depends_on = [aws_lb_target_group.green]
+# }
 
 resource "aws_lb_target_group" "blue" {
   name                 = "target-group-blue"
   target_type          = "ip"
   vpc_id               = module.datasource.vpc_id
-  port                 = 80
+  port                 = 9000
   protocol             = "HTTP"
   deregistration_delay = 300
 
@@ -125,7 +147,7 @@ resource "aws_lb_target_group" "green" {
   name                 = "target-group-green"
   target_type          = "ip"
   vpc_id               = module.datasource.vpc_id
-  port                 = 8080
+  port                 = 9000
   protocol             = "HTTP"
   deregistration_delay = 300
 

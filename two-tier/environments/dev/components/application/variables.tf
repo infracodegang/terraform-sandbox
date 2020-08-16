@@ -58,12 +58,10 @@ variable "public_alb_access_logs_enabled" {
 
 variable "api_load_balancer_container_name" {
   type        = string
-  default     = "api_gateway_container"
   description = ""
 }
 
 variable "api_load_balancer_container_port" {
   type        = number
-  default     = 80
   description = ""
 }

@@ -11,7 +11,7 @@ resource "aws_codepipeline" "main" {
       owner            = "ThirdParty"
       provider         = "GitHub"
       version          = 1
-      output_artifacts = ["Source"]
+      output_artifacts = ["SourceArtifact"]
 
       configuration = {
         OAuthToken           = var.github_token
@@ -32,8 +32,8 @@ resource "aws_codepipeline" "main" {
       owner            = "AWS"
       provider         = "CodeBuild"
       version          = 1
-      input_artifacts  = ["Source"]
-      output_artifacts = ["Build"]
+      input_artifacts  = ["SourceArtifact"]
+      output_artifacts = ["BuildArtifact"]
 
       configuration = {
         ProjectName = aws_codebuild_project.main.id
@@ -50,16 +50,16 @@ resource "aws_codepipeline" "main" {
       provider        = "CodeDeployToECS"
       version         = "1"
       run_order       = 3
-      input_artifacts = ["Source", "Build"]
+      input_artifacts = ["BuildArtifact"]
 
       configuration = {
         ApplicationName                = "codedeploy-app-${var.env}"
         DeploymentGroupName            = "codedeploy-deployment-group-${var.env}"
-        TaskDefinitionTemplateArtifact = "Source"
+        TaskDefinitionTemplateArtifact = "BuildArtifact"
         TaskDefinitionTemplatePath     = "taskdef.json"
-        AppSpecTemplateArtifact        = "Source"
+        AppSpecTemplateArtifact        = "BuildArtifact"
         AppSpecTemplatePath            = "appspec.yaml"
-        Image1ArtifactName             = "Build"
+        Image1ArtifactName             = "BuildArtifact"
         Image1ContainerName            = "IMAGE1_NAME"
       }
     }
@@ -74,7 +74,7 @@ resource "aws_codepipeline" "main" {
 }
 
 resource "aws_codepipeline_webhook" "main" {
-  name            = "example"
+  name            = "aws_codepipeline_webhook-${var.env}"
   target_pipeline = aws_codepipeline.main.name
   target_action   = "Source"
   authentication  = "GITHUB_HMAC"
