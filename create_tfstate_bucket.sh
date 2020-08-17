@@ -32,8 +32,8 @@ case "${yn}" in
   *) ;;
 esac
 
-## Public acccess block
-read -p "put-public-access-block? [y/N]: " yn
+## Deny public acccess
+read -p "deny-public-access? [y/N]: " yn
 case "${yn}" in
   [yY]*) aws s3api put-public-access-block --bucket "${BUCKET_NAME}" --public-access-block-configuration '{"BlockPublicAcls":true,"IgnorePublicAcls":true,"BlockPublicPolicy":true,"RestrictPublicBuckets":true}'
   ;;
