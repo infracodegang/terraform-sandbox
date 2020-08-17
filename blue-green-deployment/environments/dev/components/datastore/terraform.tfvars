@@ -8,5 +8,5 @@ db_instance_deletion_protection = false
 db_instance_skip_final_snapshot = true
 elasticache_engine_version = "5.0.4"
 elasticache_number_cache_clusters = 3
-elasticache_node_type = "cache.m3.medium"
+elasticache_node_type = "cache.t2.micro"
 elasticache_snapshot_retention_limit = 7
