@@ -13,12 +13,20 @@
         },
         "secrets": [
             {
+                "name": "DB_ENDPOINT",
+                "valueFrom": "/db/endpoint"
+            },
+            {
                 "name": "DB_USERNAME",
                 "valueFrom": "/db/username"
             },
             {
                 "name": "DB_PASSWORD",
                 "valueFrom": "/db/password"
+            },
+            {
+                "name": "ELASTICACHE_ENDPOINT",
+                "valueFrom": "/elasticache/endpoint"
             }
         ],
         "portMappings": [
