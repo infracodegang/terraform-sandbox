@@ -5,7 +5,7 @@ module "datasource" {
 
 module "http_sg" {
   source      = "../../../../modules/security_group"
-  name        = "http-redirect-sg"
+  name        = "http-sg"
   vpc_id      = module.datasource.vpc_id
   port        = 80
   cidr_blocks = ["0.0.0.0/0"]
