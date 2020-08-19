@@ -7,7 +7,7 @@ resource "aws_ecr_repository" "web_registry" {
 }
 
 resource "aws_ecr_lifecycle_policy" "api" {
-  repository = aws_ecr_repository.api_registry.name
+  repository = aws_ecr_repository.app_api_registry.name
 
   policy = <<EOF
   {
