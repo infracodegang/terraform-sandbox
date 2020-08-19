@@ -1,0 +1,21 @@
+[
+    {
+        "name": "web",
+        "image": "nginx:latest",
+        "essential": true,
+        "logConfiguration": {
+            "logDriver": "awslogs",
+            "options": {
+                "awslogs-region": "ap-northeast-1",
+                "awslogs-stream-prefix": "ecs-web",
+                "awslogs-group": "/ecs/web"
+            }
+        },
+        "portMappings": [
+            {
+                "protocol": "tcp",
+                "containerPort": 80
+            }
+        ]
+    }
+]

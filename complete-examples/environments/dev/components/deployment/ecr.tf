@@ -1,5 +1,9 @@
-resource "aws_ecr_repository" "api_registry" {
-  name = "ecr-repository-api"
+resource "aws_ecr_repository" "app_api_registry" {
+  name = "ecr-app-api"
+}
+
+resource "aws_ecr_repository" "web_registry" {
+  name = "ecr-web"
 }
 
 resource "aws_ecr_lifecycle_policy" "api" {
