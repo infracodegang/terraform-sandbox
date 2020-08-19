@@ -125,7 +125,7 @@ resource "aws_lb_target_group" "blue" {
   name                 = "target-group-blue"
   target_type          = "ip"
   vpc_id               = module.datasource.vpc_id
-  port                 = 9000
+  port                 = 80
   protocol             = "HTTP"
   deregistration_delay = 300
 
@@ -147,7 +147,7 @@ resource "aws_lb_target_group" "green" {
   name                 = "target-group-green"
   target_type          = "ip"
   vpc_id               = module.datasource.vpc_id
-  port                 = 9000
+  port                 = 80
   protocol             = "HTTP"
   deregistration_delay = 300
 
