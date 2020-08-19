@@ -56,12 +56,12 @@ variable "public_alb_access_logs_enabled" {
   description = ""
 }
 
-variable "api_load_balancer_container_name" {
+variable "load_balancer_container_name" {
   type        = string
   description = ""
 }
 
-variable "api_load_balancer_container_port" {
+variable "load_balancer_container_port" {
   type        = number
   description = ""
 }

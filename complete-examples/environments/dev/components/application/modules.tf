@@ -23,7 +23,7 @@ module "ecs_sg" {
   source      = "../../../../modules/security_group"
   name        = "ecs-sg"
   vpc_id      = module.datasource.vpc_id
-  port        = 9000
+  port        = var.load_balancer_container_port
   cidr_blocks = [module.datasource.vpc_cidr_block]
 }
 

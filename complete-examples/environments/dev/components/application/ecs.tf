@@ -40,8 +40,8 @@ resource "aws_ecs_service" "ecs_service_api" {
   load_balancer {
     target_group_arn = aws_lb_target_group.green.arn
     # 最初に LB からリクエストを受け取るコンテナ名とポート
-    container_name   = var.api_load_balancer_container_name
-    container_port   = var.api_load_balancer_container_port
+    container_name   = var.load_balancer_container_name
+    container_port   = var.load_balancer_container_port
   }
 
   deployment_controller {
