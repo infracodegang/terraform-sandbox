@@ -24,8 +24,6 @@ resource "aws_lb" "public_alb" {
     Environment = var.env
     Name        = "public-alb-${var.env}"
   }
-
-  depends_on = [aws_s3_bucket.alb_log]
 }
 
 resource "aws_lb_listener" "http" {

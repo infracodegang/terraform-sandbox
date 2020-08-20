@@ -17,8 +17,6 @@ data "aws_iam_policy_document" "alb_log" {
       identifiers = [var.alb_logger.ap-northeast-1]
     }
   }
-
-  depends_on = [aws_s3_bucket.alb_log]
 }
 
 data "aws_iam_policy_document" "ecs_task_execution" {
@@ -69,8 +67,4 @@ data "aws_iam_policy_document" "cloudwatch_logs" {
 resource "aws_s3_bucket_policy" "alb_log" {
   bucket = aws_s3_bucket.alb_log.id
   policy = data.aws_iam_policy_document.alb_log.json
-
-  lifecycle {
-    ignore_changes = [policy]
-  }
 }
