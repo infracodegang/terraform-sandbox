@@ -98,6 +98,11 @@ resource "aws_lb_listener_rule" "http" {
     }
   }
 
+  # Blue-Green Deployment 時に差分が出るため無視
+  lifecycle {
+    ignore_changes = [action]
+  }
+
   depends_on = [aws_lb_target_group.green]
 }
 
