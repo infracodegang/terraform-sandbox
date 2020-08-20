@@ -8,7 +8,7 @@ resource "aws_ecs_cluster" "main" {
 
 # ここでの定義は初回のみ適用され, 以降はアプリケーションのデプロイサイクルでタスク定義を更新するものとする.
 resource "aws_ecs_task_definition" "api_task_def" {
-  family                   = "api"
+  family                   = "restapi"
   cpu                      = "256"
   memory                   = "512"
   network_mode             = "awsvpc"
