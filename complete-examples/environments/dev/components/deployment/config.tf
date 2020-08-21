@@ -1,9 +1,15 @@
 terraform {
-  required_version = "0.12.29"
+  required_version = "0.13.0"
 
   required_providers {
-    aws    = "3.3.0"
-    github = "2.9.2"
+    aws = {
+      source  = "hashicorp/aws"
+      version = "3.3.0"
+    }
+    github = {
+      source  = "hashicorp/github"
+      version = "2.9.2"
+    }
   }
 
   backend "s3" {
