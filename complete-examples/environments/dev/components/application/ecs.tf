@@ -36,8 +36,8 @@ resource "aws_ecs_service" "ecs_service_api" {
     ]
 
     subnets = [
-      module.datasource.private_subnet_1_id,
-      module.datasource.private_subnet_2_id,
+      module.network.private_subnet_1_id,
+      module.network.private_subnet_2_id,
     ]
   }
 

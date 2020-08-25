@@ -6,8 +6,8 @@ resource "aws_lb" "public_alb" {
   enable_deletion_protection = var.enable_deletion_protection # production では true にして削除保護を有効化する
 
   subnets = [
-    module.datasource.public_subnet_1_id,
-    module.datasource.public_subnet_2_id,
+    module.network.public_subnet_1_id,
+    module.network.public_subnet_2_id,
   ]
 
   access_logs {
@@ -137,7 +137,7 @@ resource "aws_lb_listener_rule" "http" {
 resource "aws_lb_target_group" "blue" {
   name                 = "target-group-blue"
   target_type          = "ip"
-  vpc_id               = module.datasource.vpc_id
+  vpc_id               = module.network.vpc_id
   port                 = 80
   protocol             = "HTTP"
   deregistration_delay = 300
@@ -159,7 +159,7 @@ resource "aws_lb_target_group" "blue" {
 resource "aws_lb_target_group" "green" {
   name                 = "target-group-green"
   target_type          = "ip"
-  vpc_id               = module.datasource.vpc_id
+  vpc_id               = module.network.vpc_id
   port                 = 80
   protocol             = "HTTP"
   deregistration_delay = 300

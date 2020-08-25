@@ -10,7 +10,7 @@ resource "aws_elasticache_parameter_group" "main" {
 
 resource "aws_elasticache_subnet_group" "main" {
   name       = "elasticache-subnet-group"
-  subnet_ids = [module.datasource.private_subnet_1_id, module.datasource.private_subnet_2_id]
+  subnet_ids = [module.network.private_subnet_1_id, module.network.private_subnet_2_id]
 }
 
 resource "aws_elasticache_replication_group" "main" {

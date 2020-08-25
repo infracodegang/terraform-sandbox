@@ -1,8 +1,3 @@
-module "datasource" {
-  source = "./datasource"
-  env    = var.env
-}
-
 module "codepipeline_role" {
   source     = "../../../../modules/iam_role"
   name       = "codepipeline"

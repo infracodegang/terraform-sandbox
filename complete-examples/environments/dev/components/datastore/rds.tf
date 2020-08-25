@@ -26,8 +26,8 @@ resource "aws_db_option_group" "main" {
 resource "aws_db_subnet_group" "main" {
   name = "db-subnet-group-main-${var.env}"
   subnet_ids = [
-    module.datasource.private_subnet_1_id,
-    module.datasource.private_subnet_2_id
+    module.network.private_subnet_1_id,
+    module.network.private_subnet_2_id
   ]
 }
 

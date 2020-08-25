@@ -1,8 +1,3 @@
-module "datasource" {
-  source = "./datasource"
-  env    = var.env
-}
-
 module "ec2_for_ssm_role" {
   source     = "../../../../modules/iam_role"
   name       = "ec2-for-ssm"

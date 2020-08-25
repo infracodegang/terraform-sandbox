@@ -41,8 +41,8 @@ resource "aws_codedeploy_deployment_group" "main" {
     target_group_pair_info {
       prod_traffic_route {
         listener_arns = [
-          module.datasource.aws_lb_listener_http.arn
-          #module.datasource.aws_lb_listener_https.arn
+          module.network.aws_lb_listener_http.arn
+          #module.network.aws_lb_listener_https.arn
         ]
       }
 
