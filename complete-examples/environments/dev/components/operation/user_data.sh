@@ -16,3 +16,7 @@ yum install -y mysql-community-client
 # yum-config-manager --enable mysql80-community
 # yum-config-manager --disable mysql57-community
 # yum install -y mysql-community-client
+
+# redis
+amazon-linux-extras install -y epel
+yum install -y redis

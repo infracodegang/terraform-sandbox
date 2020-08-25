@@ -6,7 +6,11 @@ variable "vpc_id" {
   description = ""
 }
 
-variable "port" {
+variable "from_port" {
+  description = ""
+}
+
+variable "to_port" {
   description = ""
 }
 

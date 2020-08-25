@@ -40,10 +40,10 @@ variable "alb_logger" {
   description = ""
 }
 
-variable "domain_name" {
-  type        = string
-  description = ""
-}
+# variable "domain_name" {
+#   type        = string
+#   description = ""
+# }
 
 variable "enable_deletion_protection" {
   type        = bool
@@ -63,5 +63,15 @@ variable "load_balancer_container_name" {
 
 variable "load_balancer_container_port" {
   type        = number
+  description = ""
+}
+
+variable "health_check_path" {
+  type        = string
+  description = ""
+}
+
+variable "app_api_registry_name" {
+  type        = string
   description = ""
 }

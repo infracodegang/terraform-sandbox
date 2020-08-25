@@ -26,6 +26,7 @@ provider "aws" {
 }
 
 provider "github" {
-  organization = var.organization_name
-  version      = "2.9.2"
+  # organization = var.organization_name
+  individual = true
+  version    = "2.9.2"
 }

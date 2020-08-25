@@ -22,6 +22,7 @@ resource "aws_codebuild_project" "main" {
       status     = "ENABLED"
       group_name = aws_cloudwatch_log_group.codebuild.name
     }
+
     s3_logs {
       status = "DISABLED"
     }

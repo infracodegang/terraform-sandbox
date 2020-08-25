@@ -21,15 +21,19 @@ resource "aws_ecs_service" "ecs_service_api" {
   name                              = "aws-ecs-service-api-${var.env}"
   cluster                           = aws_ecs_cluster.main.arn
   task_definition                   = aws_ecs_task_definition.api_task_def.arn
-  desired_count                     = 2 # 1だとタスクが再起動するまでアクセスできないため, production では2以上を指定する
+  desired_count                     = 2 # 維持するタスク数. 各プライベートサブネットにタスクを按分.
   launch_type                       = "FARGATE"
   platform_version                  = "1.4.0"
-  health_check_grace_period_seconds = 60 # ヘルスチェック開始までの猶予期間
+  health_check_grace_period_seconds = 180 # ヘルスチェック開始までの猶予期間
   enable_ecs_managed_tags           = true
 
   network_configuration {
     assign_public_ip = false
-    security_groups  = [module.ecs_sg.security_group_id]
+
+    security_groups = [
+      module.ecs_sg.security_group_id,
+      #      module.alb_health_check_sg.security_group_id,
+    ]
 
     subnets = [
       module.datasource.private_subnet_1_id,
@@ -40,8 +44,8 @@ resource "aws_ecs_service" "ecs_service_api" {
   load_balancer {
     target_group_arn = aws_lb_target_group.green.arn
     # 最初に LB からリクエストを受け取るコンテナ名とポート
-    container_name   = var.load_balancer_container_name
-    container_port   = var.load_balancer_container_port
+    container_name = var.load_balancer_container_name
+    container_port = var.load_balancer_container_port
   }
 
   deployment_controller {

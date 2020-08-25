@@ -1,5 +1,5 @@
 resource "aws_ecr_repository" "app_api_registry" {
-  name = "ecr-app-api"
+  name = var.app_api_registry_name
 }
 
 resource "aws_ecr_lifecycle_policy" "api" {
@@ -9,11 +9,10 @@ resource "aws_ecr_lifecycle_policy" "api" {
   {
     "rules": [
       {
-        "rulePriority": 1,
-        "description": "Keep last 30 release tagged images",
+        "rulePriority": 10,
+        "description": "Keep last 30 untagged images",
         "selection": {
-          "tagStatus": "tagged",
-          "tagPrefixList": ["release"],
+          "tagStatus": "untagged",
           "countType": "imageCountMoreThan",
           "countNumber": 30
         },

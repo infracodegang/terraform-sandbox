@@ -32,8 +32,13 @@ resource "aws_lb_listener" "http" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.green.arn
+    type = "fixed-response"
+
+    fixed_response = {
+      content_type = "text/plain"
+      mesage_body  = "Not found"
+      status_code  = "404"
+    }
   }
 
   # Blue-Green Deployment 時の target-group 切り替えは無視
@@ -70,8 +75,13 @@ resource "aws_lb_listener" "http" {
 #   ssl_policy        = "ELBSecurityPolicy-2016-08"
 
 #   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.green.arn
+#     type = "fixed-response"
+
+#     fixed_response = {
+#       content_type = "text/plain"
+#       mesage_body  = "Not found"
+#       status_code  = "404"
+#     }
 #   }
 
 #   # Blue-Green Deployment 時の target-group 切り替えは無視
@@ -87,15 +97,15 @@ resource "aws_lb_listener_rule" "http" {
   # listener_arn = aws_lb_listener.https.arn
   priority = 100
 
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.green.arn
-  }
-
   condition {
     path_pattern {
       values = ["/*"]
     }
+  }
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.green.arn
   }
 
   # Blue-Green Deployment 時に差分が出るため無視
@@ -133,10 +143,10 @@ resource "aws_lb_target_group" "blue" {
   deregistration_delay = 300
 
   health_check {
-    path                = "/"
+    path                = var.health_check_path
     healthy_threshold   = 5
-    unhealthy_threshold = 2
-    timeout             = 5
+    unhealthy_threshold = 5
+    timeout             = 10
     interval            = 30
     matcher             = 200
     port                = "traffic-port"
@@ -155,10 +165,10 @@ resource "aws_lb_target_group" "green" {
   deregistration_delay = 300
 
   health_check {
-    path                = "/"
+    path                = var.health_check_path
     healthy_threshold   = 5
-    unhealthy_threshold = 2
-    timeout             = 5
+    unhealthy_threshold = 5
+    timeout             = 10
     interval            = 30
     matcher             = 200
     port                = "traffic-port"

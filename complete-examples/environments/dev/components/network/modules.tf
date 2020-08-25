@@ -5,6 +5,7 @@ module "ecs_private_link_sg" {
   source      = "../../../../modules/security_group"
   name        = "ecs-private-link-sg"
   vpc_id      = aws_vpc.main.id
-  port        = 443
+  from_port   = 443
+  to_port     = 443
   cidr_blocks = [var.vpc_cidr_block]
 }
