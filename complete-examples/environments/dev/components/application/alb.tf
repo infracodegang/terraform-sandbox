@@ -34,9 +34,9 @@ resource "aws_lb_listener" "http" {
   default_action {
     type = "fixed-response"
 
-    fixed_response = {
+    fixed_response {
       content_type = "text/plain"
-      mesage_body  = "Not found"
+      message_body = "Not found"
       status_code  = "404"
     }
   }
@@ -57,9 +57,9 @@ resource "aws_lb_listener" "http" {
 #   default_action {
 #     type = "fixed-response"
 
-#     fixed_response = {
+#     fixed_response {
 #       content_type = "text/plain"
-#       mesage_body  = "Not found"
+#       message_body = "Not found"
 #       status_code  = "404"
 #     }
 #   }
@@ -77,9 +77,9 @@ resource "aws_lb_listener" "http" {
 #   default_action {
 #     type = "fixed-response"
 
-#     fixed_response = {
+#     fixed_response {
 #       content_type = "text/plain"
-#       mesage_body  = "Not found"
+#       message_body = "Not found"
 #       status_code  = "404"
 #     }
 #   }
