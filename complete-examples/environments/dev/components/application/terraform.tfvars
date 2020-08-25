@@ -9,4 +9,3 @@ enable_deletion_protection = false
 load_balancer_container_name = "web"
 load_balancer_container_port = 80
 health_check_path = "/"
-app_api_registry_name = "ecr-app-api"

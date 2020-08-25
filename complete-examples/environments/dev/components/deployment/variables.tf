@@ -19,6 +19,11 @@ variable "github_token" {
   description = ""
 }
 
+variable "app_api_registry_name" {
+  type        = string
+  description = ""
+}
+
 variable "organization_name" {
   type        = string
   description = ""

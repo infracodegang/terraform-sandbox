@@ -5,3 +5,4 @@ env = "dev"
 target_branch = "master"
 artifact_bucket_name = "infracodegang-artifact-bucket-dev"
 bucket_force_destroy = true
+app_api_registry_name = "ecr-app-api"

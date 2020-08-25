@@ -70,8 +70,3 @@ variable "health_check_path" {
   type        = string
   description = ""
 }
-
-variable "app_api_registry_name" {
-  type        = string
-  description = ""
-}
