@@ -70,3 +70,8 @@ variable "health_check_path" {
   type        = string
   description = ""
 }
+
+variable "desired_count" {
+  type        = number
+  description = ""
+}

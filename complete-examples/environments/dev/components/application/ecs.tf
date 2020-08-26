@@ -21,7 +21,7 @@ resource "aws_ecs_service" "ecs_service_api" {
   name                              = "aws-ecs-service-api-${var.env}"
   cluster                           = aws_ecs_cluster.main.arn
   task_definition                   = aws_ecs_task_definition.api_task_def.arn
-  desired_count                     = 2 # 維持するタスク数. 各プライベートサブネットにタスクを按分.
+  desired_count                     = var.desired_count # 維持するタスク数. 各プライベートサブネットにタスクを按分.
   launch_type                       = "FARGATE"
   platform_version                  = "1.4.0"
   health_check_grace_period_seconds = 180 # ヘルスチェック開始までの猶予期間
@@ -43,7 +43,7 @@ resource "aws_ecs_service" "ecs_service_api" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.green.arn
-    # 最初に LB からリクエストを受け取るコンテナ名とポート
+    # LB からの転送先となるコンテナ名とポート
     container_name = var.load_balancer_container_name
     container_port = var.load_balancer_container_port
   }
