@@ -30,4 +30,3 @@ provider "github" {
   individual = true
   version    = "2.9.2"
 }
-z
