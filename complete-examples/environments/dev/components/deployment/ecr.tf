@@ -1,5 +1,9 @@
 resource "aws_ecr_repository" "app_api_registry" {
   name = var.app_api_registry_name
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }
 
 resource "aws_ecr_lifecycle_policy" "api" {
