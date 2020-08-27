@@ -17,6 +17,7 @@ resource "aws_ecs_task_definition" "api_task_def" {
   execution_role_arn       = module.ecs_task_execution_role.iam_role_arn
 }
 
+# https://qiita.com/narisada014/items/fdc18a7e0dedcc511279
 resource "aws_ecs_service" "ecs_service_api" {
   name                              = "aws-ecs-service-api-${var.env}"
   cluster                           = aws_ecs_cluster.main.arn

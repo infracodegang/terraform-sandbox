@@ -9,4 +9,9 @@ resource "aws_instance" "for_operation" {
   iam_instance_profile = aws_iam_instance_profile.ec2_for_ssm.name
   subnet_id            = module.network.private_subnet_1_id
   user_data            = file("./user_data.sh")
+
+  tags = {
+    Name        = "operation-${var.env}"
+    Environment = var.env
+  }
 }

@@ -15,8 +15,10 @@ if [[ -n "${DB_USER}" ]]; then
 fi
 
 read -p "Update DB password [DB password]: " DB_PASSWORD
-if [[ -n "${DB_PASSWORD}" ]]; then
+read -p "Update db-instance-identifier [db-instance-identifier]: " DB_IDENTIFIER
+if [[ -n "${DB_PASSWORD}" && -n "${DB_IDENTIFIER}" ]]; then
   aws ssm put-parameter --name '/db/password' --value="${DB_PASSWORD}" --type SecureString --overwrite
+  aws rds modify-db-instance --db-instance-identifier=${DB_IDENTIFIER} --master-user-password=${DB_PASSWORD}
   echo "Updated DB password!" 1>&2
 fi
 
