@@ -34,5 +34,11 @@ resource "aws_codebuild_project" "main" {
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = true
+
+    environment_variable {
+      name  = "ACTIVE_PROFILE"
+      value = var.env
+      type  = "PLAINTEXT"
+    }
   }
 }
