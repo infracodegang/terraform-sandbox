@@ -1,4 +1,4 @@
-resource "aws_codebuild_project" "main" {
+resource "aws_codebuild_project" "api" {
   name          = "codebuild-${var.env}"
   build_timeout = 60
   service_role  = module.codebuild_role.iam_role_arn

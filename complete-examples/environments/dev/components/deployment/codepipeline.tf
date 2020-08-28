@@ -1,4 +1,4 @@
-resource "aws_codepipeline" "main" {
+resource "aws_codepipeline" "api" {
   name     = "codepipeline-${var.env}"
   role_arn = module.codepipeline_role.iam_role_arn
 
@@ -36,7 +36,7 @@ resource "aws_codepipeline" "main" {
       output_artifacts = ["BuildArtifact"]
 
       configuration = {
-        ProjectName = aws_codebuild_project.main.id
+        ProjectName = aws_codebuild_project.api.id
       }
     }
   }
@@ -70,12 +70,12 @@ resource "aws_codepipeline" "main" {
     location = aws_s3_bucket.artifact.id
   }
 
-  depends_on = [aws_codebuild_project.main, aws_codedeploy_app.main]
+  depends_on = [aws_codebuild_project.api, aws_codedeploy_app.api]
 }
 
-resource "aws_codepipeline_webhook" "main" {
+resource "aws_codepipeline_webhook" "api" {
   name            = "aws_codepipeline_webhook-${var.env}"
-  target_pipeline = aws_codepipeline.main.name
+  target_pipeline = aws_codepipeline.api.name
   target_action   = "Source"
   authentication  = "GITHUB_HMAC"
 
@@ -89,11 +89,11 @@ resource "aws_codepipeline_webhook" "main" {
   }
 }
 
-resource "github_repository_webhook" "main" {
+resource "github_repository_webhook" "api" {
   repository = var.repository_name
 
   configuration {
-    url          = aws_codepipeline_webhook.main.url
+    url          = aws_codepipeline_webhook.api.url
     secret       = "VfwY7F3nFMdVx9NbuPDS"
     content_type = "json"
     insecure_ssl = false

@@ -1,10 +1,10 @@
-resource "aws_codedeploy_app" "main" {
+resource "aws_codedeploy_app" "api" {
   compute_platform = "ECS"
   name             = "codedeploy-app-${var.env}"
 }
 
-resource "aws_codedeploy_deployment_group" "main" {
-  app_name               = aws_codedeploy_app.main.name
+resource "aws_codedeploy_deployment_group" "api" {
+  app_name               = aws_codedeploy_app.api.name
   deployment_config_name = "CodeDeployDefault.ECSAllAtOnce"
   deployment_group_name  = "codedeploy-deployment-group-${var.env}"
   service_role_arn       = module.codedeploy_role.iam_role_arn
@@ -41,8 +41,8 @@ resource "aws_codedeploy_deployment_group" "main" {
     target_group_pair_info {
       prod_traffic_route {
         listener_arns = [
-          module.network.aws_lb_listener_http.arn
-          #module.network.aws_lb_listener_https.arn
+          module.application.aws_lb_listener_http.arn
+          #module.application.aws_lb_listener_https.arn
         ]
       }
 
