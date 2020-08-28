@@ -1,6 +1,11 @@
 resource "aws_ecs_cluster" "main" {
   name = "aws-ecs-cluster-${var.env}"
 
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
+
   tags = {
     Environment = var.env
   }
