@@ -1,14 +1,14 @@
 [
     {
         "name": "api",
-        "image": "python:3.8",
+        "image": "ruby:2.7.1",
         "essential": true,
-        "command": [
-            "/bin/sh -c \"python -m http.server 9000 --directory /tmp/\""
-        ],
         "entryPoint": [
             "sh",
             "-c"
+        ],
+        "command": [
+            "/bin/sh -c \"gem install sinatra && ruby -r sinatra -e 'set :bind, \\\"0.0.0.0\\\"; set :port, 9000; set :public_folder, \\\"./\\\"; get(\\\"/actuator/health\\\"){\\\"OK\\\"}'\""
         ],
         "portMappings": [
             {

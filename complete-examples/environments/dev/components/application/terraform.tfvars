@@ -8,5 +8,5 @@ bucket_force_destroy = true
 enable_deletion_protection = false
 load_balancer_container_name = "api"
 load_balancer_container_port = 9000
-health_check_path = "/"
+health_check_path = "/actuator/health"
 desired_count = 1
