@@ -1,12 +1,19 @@
 [
     {
-        "name": "web",
-        "image": "nginx:latest",
+        "name": "api",
+        "image": "python:3.8",
         "essential": true,
+        "command": [
+            "/bin/sh -c \"python -m http.server 9000 --directory /tmp/\""
+        ],
+        "entryPoint": [
+            "sh",
+            "-c"
+        ],
         "portMappings": [
             {
                 "protocol": "tcp",
-                "containerPort": 80
+                "containerPort": 9000
             }
         ]
     }
