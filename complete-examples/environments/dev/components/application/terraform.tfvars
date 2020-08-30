@@ -9,4 +9,4 @@ enable_deletion_protection = false
 load_balancer_container_name = "web"
 load_balancer_container_port = 80
 health_check_path = "/"
-desired_count = 4
+desired_count = 1
