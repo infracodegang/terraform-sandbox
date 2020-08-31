@@ -5,8 +5,8 @@ resource "aws_codedeploy_app" "api" {
 
 resource "aws_codedeploy_deployment_group" "api" {
   app_name               = aws_codedeploy_app.api.name
-  deployment_config_name = "CodeDeployDefault.ECSAllAtOnce"
-  deployment_group_name  = "codedeploy-deployment-group-${var.env}"
+  deployment_config_name = var.api_deployment_config_name
+  deployment_group_name  = var.api_deployment_group_name
   service_role_arn       = module.codedeploy_role.iam_role_arn
 
   auto_rollback_configuration {

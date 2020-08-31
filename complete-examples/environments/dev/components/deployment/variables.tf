@@ -54,3 +54,13 @@ variable "bucket_force_destroy" {
   default     = false
   description = ""
 }
+
+variable "api_deployment_group_name" {
+  type        = string
+  description = ""
+}
+
+variable "api_deployment_config_name" {
+  type        = string
+  description = ""
+}

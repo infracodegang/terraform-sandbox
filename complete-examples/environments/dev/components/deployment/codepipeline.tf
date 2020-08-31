@@ -53,8 +53,8 @@ resource "aws_codepipeline" "api" {
       input_artifacts = ["BuildArtifact"]
 
       configuration = {
-        ApplicationName                = "codedeploy-app-${var.env}"
-        DeploymentGroupName            = "codedeploy-deployment-group-${var.env}"
+        ApplicationName                = "codedeploy-api-${var.env}"
+        DeploymentGroupName            = var.api_deployment_group_name
         TaskDefinitionTemplateArtifact = "BuildArtifact"
         TaskDefinitionTemplatePath     = "taskdef.json"
         AppSpecTemplateArtifact        = "BuildArtifact"

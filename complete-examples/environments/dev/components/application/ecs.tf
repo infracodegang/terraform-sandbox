@@ -38,7 +38,6 @@ resource "aws_ecs_service" "ecs_service_api" {
 
     security_groups = [
       module.ecs_sg.security_group_id,
-      #      module.alb_health_check_sg.security_group_id,
     ]
 
     subnets = [
