@@ -5,6 +5,7 @@ resource "aws_lb" "public_alb" {
   idle_timeout               = 60
   enable_deletion_protection = var.enable_deletion_protection # production では true にして削除保護を有効化する
 
+  # ALB が所属するサブネット
   subnets = [
     module.network.public_subnet_1_id,
     module.network.public_subnet_2_id,
