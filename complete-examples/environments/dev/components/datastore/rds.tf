@@ -34,31 +34,32 @@ resource "aws_db_subnet_group" "main" {
 # あとから以下のコマンドでパスワードを更新
 # aws rds modify-db-instance --db-instance-identifier 'main' --master-user-password 'NewPassword'
 resource "aws_db_instance" "main" {
-  identifier                 = "main-${var.env}"
-  engine                     = "mysql"
-  engine_version             = var.db_instance_engine_version
-  instance_class             = var.db_instance_instance_class
-  allocated_storage          = 20
-  max_allocated_storage      = 100
-  storage_type               = var.db_instance_storage_type
-  storage_encrypted          = true
-  kms_key_id                 = aws_kms_key.main.arn
-  username                   = var.db_instance_username
-  password                   = "temporalpassword"
-  multi_az                   = true
-  publicly_accessible        = false
-  backup_window              = "09:10-09:40"
-  backup_retention_period    = 30
-  maintenance_window         = "mon:10:10-mon:10:40"
-  auto_minor_version_upgrade = false
-  deletion_protection        = var.db_instance_deletion_protection # production では true
-  skip_final_snapshot        = var.db_instance_skip_final_snapshot # インスタンス削除時にスナップショットを作成するか. production では false
-  port                       = 3306
-  apply_immediately          = false
-  vpc_security_group_ids     = [module.mysql_sg.security_group_id]
-  parameter_group_name       = aws_db_parameter_group.main.name
-  option_group_name          = aws_db_option_group.main.name
-  db_subnet_group_name       = aws_db_subnet_group.main.name
+  identifier                      = "main-${var.env}"
+  engine                          = "mysql"
+  engine_version                  = var.db_instance_engine_version
+  instance_class                  = var.db_instance_instance_class
+  allocated_storage               = 20
+  max_allocated_storage           = 100
+  storage_type                    = var.db_instance_storage_type
+  storage_encrypted               = true
+  kms_key_id                      = aws_kms_key.main.arn
+  username                        = var.db_instance_username
+  password                        = "temporalpassword"
+  multi_az                        = true
+  publicly_accessible             = false
+  backup_window                   = "09:10-09:40"
+  backup_retention_period         = 30
+  maintenance_window              = "mon:10:10-mon:10:40"
+  auto_minor_version_upgrade      = false
+  deletion_protection             = var.db_instance_deletion_protection # production では true
+  skip_final_snapshot             = var.db_instance_skip_final_snapshot # インスタンス削除時にスナップショットを作成するか. production では false
+  port                            = 3306
+  apply_immediately               = false
+  vpc_security_group_ids          = [module.mysql_sg.security_group_id]
+  parameter_group_name            = aws_db_parameter_group.main.name
+  option_group_name               = aws_db_option_group.main.name
+  db_subnet_group_name            = aws_db_subnet_group.main.name
+  enabled_cloudwatch_logs_exports = ["error", "slowquery"]
 
   lifecycle {
     ignore_changes = [password]
