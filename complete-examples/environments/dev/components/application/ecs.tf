@@ -40,9 +40,12 @@ resource "aws_ecs_service" "ecs_service_api" {
       module.ecs_sg.security_group_id,
     ]
 
+    # パフォーマンスの関係上 ECS のタスクを RDS のマスターと同じサブネットに配置する.
+    # なおコメントを外すと Multi-AZ となりタスクは均等に配置されるが,
+    # AZ をまたぐ書き込みの場合にレイテンシによりレスポンスタイムが著しく悪化する.
     subnets = [
       module.network.private_subnet_1_id,
-      module.network.private_subnet_2_id,
+      #      module.network.private_subnet_2_id,
     ]
   }
 

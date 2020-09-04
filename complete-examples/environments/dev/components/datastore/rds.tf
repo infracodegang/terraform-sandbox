@@ -11,6 +11,16 @@ resource "aws_db_parameter_group" "main" {
     name  = "character_set_server"
     value = "utf8mb4"
   }
+
+  parameter {
+    name  = "slow_query_log"
+    value = "1"
+  }
+
+  parameter {
+    name  = "skip_name_resolve"
+    value = "1"
+  }
 }
 
 resource "aws_db_option_group" "main" {
