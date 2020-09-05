@@ -47,7 +47,7 @@ resource "aws_db_instance" "main" {
   identifier                      = "main-${var.env}"
   engine                          = "mysql"
   engine_version                  = var.db_instance_engine_version
-  instance_class                  = var.db_instance_instance_class
+  instance_class                  = var.db_instance_class
   allocated_storage               = 20
   max_allocated_storage           = 100
   storage_type                    = var.db_instance_storage_type

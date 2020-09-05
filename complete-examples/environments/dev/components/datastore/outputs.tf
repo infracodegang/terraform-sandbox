@@ -1,5 +1,10 @@
-output "rds_endpoint" {
-  value       = aws_db_instance.main.endpoint
+# output "rds_endpoint" {
+#   value       = aws_db_instance.main.endpoint
+#   description = ""
+# }
+
+output "aurora_endpoint" {
+  value       = aws_rds_cluster.main.endpoint
   description = ""
 }
 

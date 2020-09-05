@@ -20,7 +20,7 @@ variable "db_instance_engine_version" {
   description = ""
 }
 
-variable "db_instance_instance_class" {
+variable "db_instance_class" {
   type        = string
   description = ""
 }
@@ -63,5 +63,45 @@ variable "elasticache_node_type" {
 
 variable "elasticache_snapshot_retention_limit" {
   type        = number
+  description = ""
+}
+
+variable "aurora_family" {
+  type        = string
+  description = ""
+}
+
+variable "aurora_engine_version" {
+  type        = string
+  description = ""
+}
+
+variable "aurora_availability_zones" {
+  type        = list(string)
+  description = ""
+}
+
+variable "aurora_instance_count" {
+  type        = number
+  description = ""
+}
+
+variable "aurora_instance_username" {
+  type        = string
+  description = ""
+}
+
+variable "aurora_instance_deletion_protection" {
+  type        = bool
+  description = ""
+}
+
+variable "aurora_instance_skip_final_snapshot" {
+  type        = bool
+  description = ""
+}
+
+variable "aurora_instance_class" {
+  type        = string
   description = ""
 }
