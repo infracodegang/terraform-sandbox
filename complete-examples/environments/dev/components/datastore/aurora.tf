@@ -66,12 +66,6 @@ resource "aws_rds_cluster_parameter_group" "main" {
     value        = "1"
     apply_method = "immediate"
   }
-
-  parameter {
-    name         = "skip_name_resolve"
-    value        = "1"
-    apply_method = "immediate"
-  }
 }
 
 resource "aws_db_subnet_group" "main" {
@@ -83,7 +77,7 @@ resource "aws_db_subnet_group" "main" {
 }
 
 # あとから以下のコマンドでパスワードを更新
-# aws rds modify-db-instance --db-instance-identifier 'main' --master-user-password 'NewPassword'
+# aws rds modify-db-cluster --db-cluster-identifier 'my-cluster' --master-user-password 'NewPassword'
 resource "aws_rds_cluster" "main" {
   cluster_identifier              = "aurora-cluster-${var.env}"
   engine                          = "aurora-mysql"
@@ -111,7 +105,7 @@ resource "aws_rds_cluster" "main" {
 }
 
 resource "aws_rds_cluster_instance" "main" {
-  # Multi AZ にする場合は, プライマリインスタンス(Writer)とレプリカ(Reader)で最低 2 を設定する
+  # Multi AZ にする場合は, プライマリインスタンス(Writer)とレプリカ(Reader)で 2 以上を設定する
   count = var.aurora_instance_count
 
   identifier              = "aurora-instance-${var.env}-${count.index + 1}"
