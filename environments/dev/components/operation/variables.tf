@@ -29,3 +29,8 @@ variable "bucket_force_destroy" {
   default     = false
   description = ""
 }
+
+variable "operation_log_retention_in_days" {
+  type        = number
+  description = ""
+}
