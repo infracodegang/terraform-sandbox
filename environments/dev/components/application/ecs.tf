@@ -65,7 +65,7 @@ resource "aws_ecs_service" "ecs_service_api" {
     # つまりタスク定義の更新は, Terraform のライフサイクルではなく, アプリケーションデプロイのライフサイクルとする.
     ignore_changes = [
       task_definition,
-      desired_count,
+      desired_count, # Blue-Green Deployment の場合は desired_count を更新できないため変更を無視
       load_balancer,
     ]
   }

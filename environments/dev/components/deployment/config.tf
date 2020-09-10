@@ -6,9 +6,10 @@ terraform {
       source  = "hashicorp/aws"
       version = "3.3.0"
     }
+
     github = {
       source  = "hashicorp/github"
-      version = "2.9.2"
+      version = "3.0.0"
     }
   }
 
@@ -26,7 +27,6 @@ provider "aws" {
 }
 
 provider "github" {
-  # organization = var.organization_name
-  individual = true
-  version    = "2.9.2"
+  organization = var.repository_owner
+  version      = "3.0.0"
 }

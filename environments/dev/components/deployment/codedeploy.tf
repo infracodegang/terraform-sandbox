@@ -1,6 +1,6 @@
 resource "aws_codedeploy_app" "api" {
   compute_platform = "ECS"
-  name             = "codedeploy-app-${var.env}"
+  name             = "codedeploy-api-${var.env}"
 }
 
 resource "aws_codedeploy_deployment_group" "api" {
