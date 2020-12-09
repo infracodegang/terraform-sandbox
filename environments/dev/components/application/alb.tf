@@ -18,7 +18,7 @@ resource "aws_lb" "public_alb" {
 
   security_groups = [
     module.http_sg.security_group_id,
-    # module.https_sg.security_group_id,
+    module.https_sg.security_group_id,
   ]
 
   tags = {
@@ -37,8 +37,8 @@ resource "aws_lb_listener" "http" {
 
     fixed_response {
       content_type = "text/plain"
-      message_body = "Not found"
-      status_code  = "404"
+      message_body = "HTTP"
+      status_code  = "200"
     }
   }
 
@@ -50,52 +50,33 @@ resource "aws_lb_listener" "http" {
   depends_on = [aws_lb.public_alb]
 }
 
-# resource "aws_lb_listener" "http" {
-#   load_balancer_arn = aws_lb.public_alb.arn
-#   port              = "80"
-#   protocol          = "HTTP"
+resource "aws_lb_listener" "https" {
+  load_balancer_arn = aws_lb.public_alb.arn
+  port              = "443"
+  protocol          = "HTTPS"
+  certificate_arn   = var.acm_cert_arn
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
 
-#   default_action {
-#     type = "fixed-response"
+  default_action {
+    type = "fixed-response"
 
-#     fixed_response {
-#       content_type = "text/plain"
-#       message_body = "Not found"
-#       status_code  = "404"
-#     }
-#   }
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "HTTPS"
+      status_code  = "200"
+    }
+  }
 
-#   depends_on = [aws_lb.public_alb]
-# }
+  # Blue-Green Deployment 時の target-group 切り替えは無視
+  lifecycle {
+    ignore_changes = [default_action]
+  }
 
-# resource "aws_lb_listener" "https" {
-#   load_balancer_arn = aws_lb.public_alb.arn
-#   port              = "443"
-#   protocol          = "HTTPS"
-#   certificate_arn   = aws_acm_certificate.acm_cert.arn
-#   ssl_policy        = "ELBSecurityPolicy-2016-08"
+  depends_on = [aws_lb.public_alb]
+}
 
-#   default_action {
-#     type = "fixed-response"
-
-#     fixed_response {
-#       content_type = "text/plain"
-#       message_body = "Not found"
-#       status_code  = "404"
-#     }
-#   }
-
-#   # Blue-Green Deployment 時の target-group 切り替えは無視
-#   lifecycle {
-#     ignore_changes = [default_action]
-#   }
-
-#   depends_on = [aws_lb.public_alb, aws_acm_certificate.acm_cert]
-# }
-
-resource "aws_lb_listener_rule" "http" {
-  listener_arn = aws_lb_listener.http.arn
-  # listener_arn = aws_lb_listener.https.arn
+resource "aws_lb_listener_rule" "https" {
+  listener_arn = aws_lb_listener.https.arn
   priority = 100
 
   condition {
@@ -116,24 +97,6 @@ resource "aws_lb_listener_rule" "http" {
 
   depends_on = [aws_lb_target_group.green]
 }
-
-# resource "aws_lb_listener_rule" "https" {
-#   listener_arn = aws_lb_listener.https.arn
-#   priority = 100
-
-#   action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.green.arn
-#   }
-
-#   condition {
-#     path_pattern {
-#       values = ["/*"]
-#     }
-#   }
-
-#   depends_on = [aws_lb_target_group.green]
-# }
 
 resource "aws_lb_target_group" "blue" {
   name                 = "target-group-blue"

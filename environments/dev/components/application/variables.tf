@@ -45,6 +45,11 @@ variable "alb_logger" {
 #   description = ""
 # }
 
+variable "acm_cert_arn" {
+  type        = string
+  description = ""
+}
+
 variable "enable_deletion_protection" {
   type        = bool
   description = ""
