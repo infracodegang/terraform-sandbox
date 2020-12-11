@@ -17,3 +17,7 @@ output "target_group_green_arn" {
   value = aws_lb_target_group.green.arn
   description = ""
 }
+
+output "admin_instance_id" {
+  value = aws_instance.for_admin.id
+}

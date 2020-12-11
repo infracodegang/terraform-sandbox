@@ -10,3 +10,7 @@ load_balancer_container_name = "api"
 load_balancer_container_port = 9000
 health_check_path = "/actuator/health"
 desired_count = 1
+
+instance_type = "t3.micro"
+admin_bucket_name = "infracodegang-admin-bucket-dev"
+admin_log_retention_in_days = 180

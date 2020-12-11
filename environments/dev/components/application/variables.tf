@@ -45,7 +45,22 @@ variable "alb_logger" {
 #   description = ""
 # }
 
-variable "acm_cert_arn" {
+variable "acm_cert_arn_api" {
+  type        = string
+  description = ""
+}
+
+variable "acm_cert_arn_admin" {
+  type        = string
+  description = ""
+}
+
+variable "api_host_header" {
+  type        = string
+  description = ""
+}
+
+variable "admin_host_header" {
   type        = string
   description = ""
 }
@@ -77,6 +92,21 @@ variable "health_check_path" {
 }
 
 variable "desired_count" {
+  type        = number
+  description = ""
+}
+
+variable "instance_type" {
+  type        = string
+  description = ""
+}
+
+variable "admin_bucket_name" {
+  type        = string
+  description = ""
+}
+
+variable "admin_log_retention_in_days" {
   type        = number
   description = ""
 }

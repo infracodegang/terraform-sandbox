@@ -50,3 +50,24 @@ resource "aws_s3_bucket_public_access_block" "cloudwatch_logs" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+resource "aws_s3_bucket" "admin" {
+  bucket        = var.admin_bucket_name
+  force_destroy = var.bucket_force_destroy
+
+  lifecycle_rule {
+    enabled = true
+
+    expiration {
+      days = "180"
+    }
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "admin" {
+  bucket                  = aws_s3_bucket.admin.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}

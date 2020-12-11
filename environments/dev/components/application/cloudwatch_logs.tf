@@ -21,3 +21,8 @@ resource "aws_cloudwatch_log_subscription_filter" "api" {
   filter_pattern  = "[]"
   role_arn        = module.cloudwatch_logs_role.iam_role_arn
 }
+
+resource "aws_cloudwatch_log_group" "admin" {
+  name              = "/admin"
+  retention_in_days = var.admin_log_retention_in_days
+}
