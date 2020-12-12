@@ -55,12 +55,12 @@ variable "acm_cert_arn_admin" {
   description = ""
 }
 
-variable "api_host_header" {
+variable "api_host" {
   type        = string
   description = ""
 }
 
-variable "admin_host_header" {
+variable "admin_host" {
   type        = string
   description = ""
 }

@@ -93,7 +93,7 @@ resource "aws_lb_listener_rule" "api" {
 
   condition {
     host_header {
-      values = [var.api_host_header]
+      values = [var.api_host]
     }
   }
 
@@ -123,7 +123,7 @@ resource "aws_lb_listener_rule" "myadmin" {
 
   condition {
     host_header {
-      values = [var.admin_host_header]
+      values = [var.admin_host]
     }
   }
 
