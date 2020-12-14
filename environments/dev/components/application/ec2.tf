@@ -12,8 +12,6 @@ resource "aws_instance" "for_admin" {
 
   security_groups = [
     module.http_sg.security_group_id,
-    module.myadmin_sg.security_group_id,
-    module.admin_site_sg.security_group_id,
   ]
 
   tags = {
@@ -28,6 +26,7 @@ data "template_file" "provisioning_sh" {
   vars {
     docker_compose_version = "1.27.4"
     pma_version            = "5.0.0"
+    vpc_cidr               = module.network.vpc_cidr_block
     admin_host             = var.admin_host
   }
 }

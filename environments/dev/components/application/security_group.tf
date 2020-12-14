@@ -16,24 +16,6 @@ module "https_sg" {
   cidr_blocks = ["0.0.0.0/0"]
 }
 
-module "myadmin_sg" {
-  source      = "../../../../modules/security_group"
-  name        = "myadmin-sg"
-  vpc_id      = module.network.vpc_id
-  from_port   = 8081
-  to_port     = 8081
-  cidr_blocks = ["0.0.0.0/0"]
-}
-
-module "admin_site_sg" {
-  source      = "../../../../modules/security_group"
-  name        = "admin-site-sg"
-  vpc_id      = module.network.vpc_id
-  from_port   = 9000
-  to_port     = 9000
-  cidr_blocks = ["0.0.0.0/0"]
-}
-
 module "ecs_sg" {
   source      = "../../../../modules/security_group"
   name        = "ecs-sg"
