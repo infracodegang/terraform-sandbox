@@ -75,7 +75,7 @@ resource "aws_lb_listener" "https" {
   depends_on = [aws_lb.public_alb]
 }
 
-# セカンダリーの証明書
+# セカンダリーサブドメインの証明書
 resource "aws_lb_listener_certificate" "acm_cert_admin" {
   listener_arn    = aws_lb_listener.https.arn
   certificate_arn = var.acm_cert_arn_admin
@@ -123,7 +123,7 @@ resource "aws_lb_listener_rule" "admin_site" {
 
   condition {
     host_header {
-      values = [var.admin_host_header]
+      values = [var.admin_host]
     }
   }
 

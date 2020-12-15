@@ -23,7 +23,7 @@ resource "aws_instance" "for_admin" {
 data "template_file" "provisioning_sh" {
   template = file("provisioning.sh")
 
-  vars {
+  vars = {
     docker_compose_version = "1.27.4"
     pma_version            = "5.0.0"
     vpc_cidr               = module.network.vpc_cidr_block

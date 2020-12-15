@@ -18,6 +18,11 @@ output "target_group_green_arn" {
   description = ""
 }
 
+output "target_group_admin_site_arn" {
+  value = aws_lb_target_group.admin_site.arn
+  description = ""
+}
+
 output "admin_instance_id" {
   value = aws_instance.for_admin.id
 }

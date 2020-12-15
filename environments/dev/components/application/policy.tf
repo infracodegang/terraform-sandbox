@@ -50,6 +50,20 @@ data "aws_iam_policy_document" "kinesis_data_firehose" {
   }
 }
 
+data "aws_iam_policy_document" "cloudwatch_logs" {
+  statement {
+    effect    = "Allow"
+    actions   = ["firehose:*"]
+    resources = ["arn:aws:firehose:${var.region}:*:*"]
+  }
+
+  statement {
+    effect    = "Allow"
+    actions   = ["iam:PassRole"]
+    resources = ["arn:aws:iam::*:role/cloudwatch-logs"]
+  }
+}
+
 data "aws_iam_policy" "ec2_for_ssm" {
   arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
@@ -74,20 +88,6 @@ data "aws_iam_policy_document" "ec2_for_ssm" {
       "ssm:GetParametersByPath",
       "kms:Decrypt",
     ]
-  }
-}
-
-data "aws_iam_policy_document" "cloudwatch_logs" {
-  statement {
-    effect    = "Allow"
-    actions   = ["firehose:*"]
-    resources = ["arn:aws:firehose:${var.region}:*:*"]
-  }
-
-  statement {
-    effect    = "Allow"
-    actions   = ["iam:PassRole"]
-    resources = ["arn:aws:iam::*:role/cloudwatch-logs"]
   }
 }
 

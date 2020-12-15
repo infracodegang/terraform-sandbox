@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# ulimit
+sudo cat << 'EOF' >> /etc/security/limits.conf
+*    soft nofile 65536
+*    hard nofile 65536
+root soft nofile 65536
+root hard nofile 65536
+EOF
+
 # docker
 sudo amazon-linux-extras install -y docker
 sudo systemctl start docker
@@ -73,12 +81,22 @@ http {
   real_ip_recursive on;
   set_real_ip_from  ${vpc_cidr};
 
-  log_format main '$remote_addr - $host $request_uri $remote_user [$time_iso8601] $scheme "$request" '
-                  '$status $body_bytes_sent "$http_referer" '
-                  '"$http_user_agent" "$http_x_forwarded_for" $request_time';
-
-  access_log       /var/log/nginx/access.log  main;
-  error_log        /var/log/nginx/error.log   warn;
+  log_format json escape=json '{"time": "$time_iso8601",'
+    '"host": "$remote_addr",'
+    '"vhost": "$host",'
+    '"user": "$remote_user",'
+    '"status": "$status",'
+    '"protocol": "$server_protocol",'
+    '"method": "$request_method",'
+    '"path": "$request_uri",'
+    '"req": "$request",'
+    '"size": "$body_bytes_sent",'
+    '"reqtime": "$request_time",'
+    '"apptime": "$upstream_response_time",'
+    '"ua": "$http_user_agent",'
+    '"forwardedfor": "$http_x_forwarded_for",'
+    '"forwardedproto": "$http_x_forwarded_proto",'
+    '"referrer": "$http_referer"}';
 
   proxy_http_version 1.1;
   server_tokens    off;
@@ -100,7 +118,12 @@ http {
     error_log off;
     log_not_found off;
     listen 80 default_server;
-    root /var/www/html;
+
+    # for health check
+    location / {
+      add_header Content-Type text/plain;
+      return 200 'OK';
+    }
   }
 
   server {
@@ -133,6 +156,9 @@ http {
 
     # for health check
     location / {
+      access_log off;
+      error_log off;
+      log_not_found off;
       add_header Content-Type text/plain;
       return 200 'OK';
     }
@@ -142,7 +168,7 @@ http {
       if ($uri ~ \.(gif|jpg|png|ico|js|css)$) {
         access_log off;
       }
-      access_log  /var/log/nginx/pma.access.log  main;
+      access_log  /var/log/nginx/pma.access.log  json;
       error_log   /var/log/nginx/pma.error.log   warn;
       keepalive_timeout  0;
       rewrite /pma/(.*) /$1 break;
@@ -151,7 +177,7 @@ http {
 
     # admin site
     location /admin/ {
-      access_log  /var/log/nginx/mgr.access.log  main;
+      access_log  /var/log/nginx/mgr.access.log  json;
       error_log   /var/log/nginx/mgr.error.log   warn;
       keepalive_timeout  0;
       rewrite /admin/(.*) /$1 break;
